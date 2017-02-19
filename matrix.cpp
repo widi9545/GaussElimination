@@ -6,72 +6,77 @@
 //in Java for another class. 
 
 
-int printMatrix(int matrix[][3]){
+float printMatrix(float matrix[][3], float vector[3]){
 	for(int i = 0; i < 3; i++){
 		for(int j = 0; j < 3; j++){
 			std::cout << matrix[i][j] << " ";
 		}
-		std::cout << std::endl;
+		std::cout << vector[i] << std::endl;
 	}
 	return 1;
 }
 
-int addToRow(int matrix[][3], int x, int y, int z){
+float addToRow(float matrix[][3], float vector[3], float x, float y, float z, float b){
 	int i;
 	std::cout << "Enter the row to which you want to add" << std::endl;
 	std::cin >> i;
 	matrix[i][0] = matrix[i][0] + x;
 	matrix[i][1] = matrix[i][1] + y;
 	matrix[i][2] = matrix[i][2] + z;
+	vector[i] = vector[i] + b;
 	std::cout << "We are going to print the new matrix now" << std::endl;
-	printMatrix(matrix);
+	printMatrix(matrix, vector);
 	return 1;
 }
 
 
-int scaleMatrix(int matrix[][3]){
-	int x, y, z, i;
+float scaleMatrix(float matrix[][3], float vector[3]){
+	bool run = true;
+	float x, y, z, b;
+	int i;
 	
-	std::cout << "Enter a row that you want to modify"<< std::endl;
-	std::cin >> i;
+	while(run == true){
+		std::cout << "Enter a row that you want to use to perform an operation"<< std::endl;
+		std::cin >> i;
 	
-	x = matrix[i][0];
-	y = matrix[i][1];
-	z = matrix[i][2];
+		x = matrix[i][0];
+		y = matrix[i][1];
+		z = matrix[i][2];
+		b = vector[i];
 	
-	char choice;
-	std::cout << "Would you like to scale the row? If so, type y, if not, type n" << std::endl;
-	std::cin >> choice;
-	if(choice == 'y'){
-		float scale;
-		std::cout << "How much would you like to scale the row by? Type a number or a fraction" << std::endl;
-		std::cin >> scale;
-		x = x * scale;
-		y = y * scale;
-		z = z * scale;
-		std::cout << "The new numbers are:" << "\n" << x << "\n" << y << "\n" << z << std::endl;
+		char choice;
+		std::cout << "Would you like to scale the row? If so, type y, if not, type n" << std::endl;
+		std::cin >> choice;
+		if(choice == 'y'){
+			float scale;
+			std::cout << "How much would you like to scale the row by? Type a number or a fraction" << std::endl;
+			std::cin >> scale;
+			x = x * scale;
+			y = y * scale;
+			z = z * scale;
+			b = b * scale;
+			std::cout << "The new numbers are:" << "\n" << x << "\n" << y << "\n" << z << std::endl;
+			
+			for(int j = 0; j < 1; j++){
+				matrix[i][j] = x;
+				matrix[i][j+1] = y; 
+				matrix[i][j+2] = z;
+				vector[i] = b;
+			}
+			std::cout << "We are going to print the new matrix now!" << std::endl;
+			printMatrix(matrix, vector);
+		}
+		if(choice == 'n'){
+			std::cout << "Continuing with the program!" << std::endl;
+		}
+	
+	addToRow(matrix, vector, x, y, z, b);
+	
 	}
-	for(int j = 0; j < 1; j++){
-		matrix[i][j] = x;
-		matrix[i][j+1] = y; 
-		matrix[i][j+2] = z;
-	}
-	
-	std::cout << "We are going to print the new matrix now!" << std::endl;
-	printMatrix(matrix);
-	
-	if(choice == 'n'){
-		std::cout << "Continuing with the program!" << std::endl;
-	
-	}
-	addToRow(matrix, x, y, z);
-
-	
 	return 1;
 }
 
-
-int fillMatrix(int matrix[][3]){
+float fillMatrix(float matrix[][3], float vector[3]){
 	int i, j, y;
 	for(int x = 0; x < 9; x++){
 		std::cout << "Enter in a number, and then which row you want to put the number in, and which column " << std::endl;
@@ -81,12 +86,21 @@ int fillMatrix(int matrix[][3]){
 		matrix[i][j] = y;
 	}
 	std::cout << "We are now going to print the matrix!" << std::endl;
-	printMatrix(matrix);
-	scaleMatrix(matrix);
+	printMatrix(matrix, vector);
+	scaleMatrix(matrix, vector);
 	return 1;
 }
 
 int main(){
-	int newMatrix[3][3];
-	fillMatrix(newMatrix);
+	float newMatrix[3][3];
+	float testMatrix[3][3];
+	for(int i = 0; i < 3; i++){
+		for(int j = 0; j < 3; j++){
+			testMatrix[i][j] = 1;
+		}
+	}
+	float vector[3] = {4,2,3};
+	//printMatrix(testMatrix, vector);
+	//scaleMatrix(testMatrix);
+	fillMatrix(newMatrix, vector);
 }
